@@ -4,21 +4,32 @@ __author__ = 'Majd Jamal'
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from model.colorization import Colorizer
-from utils.params import args
+from model.pix2pix import Pix2Pix
+from tensorflow.data import Dataset
+import tensorflow as tf
+from utils.params import params
+from data.getData import getData
 
 
-data_color = np.load('data/processed_data/X_val.npy') / 255
-data_grey = np.load('data/processed_data/y_val.npy') / 255
+
+if params.process_data:
+    from data.processsData import processData
+    processData()
+
+if params.process_test_data:
+    from utils.mp4_to_jpg import mp4_to_jpg
+
+    movie_path = 'data/movie/test/kansas.mp4'
+    saving_path = 'data/movie_frames/test/Y/'
 
 
-data_color = np.array_split(data_color, 28)
-data_grey = np.array_split(data_grey, 28)
+    mp4_to_jpg(movie_path, None, saving_path, False)
 
-#print(X_val.shape)
-#x_test = X_val[5]
-#y_test = y_val[5]
-
-
-clr = Colorizer(args)
-clr.main(data_grey, data_color)
+if params.train:
+    train_dataset = getData()
+    train_dataset = train_dataset.batch(params.batch_size)
+else:
+    train_dataset = None
+    
+colorizer = Pix2Pix(params, train_dataset)
+colorizer.main()
