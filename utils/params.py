@@ -3,7 +3,7 @@ __author__ = 'Majd Jamal'
 
 import argparse
 
-parser = argparse.ArgumentParser(description='Image Classification of fruits and vegetables')
+parser = argparse.ArgumentParser(description='Colorize old movies with Pix2Pix.')
 
 parser.add_argument('--steps', type = int, default=10000,
 	help='Training iterations. Default: 10 000')
