@@ -336,6 +336,7 @@ class Pix2Pix:
             self.fit(ds, steps)
 
         elif self.params.predict:
+
             test_path = self.params.test_path
             self.predict(test_path)
 

@@ -15,21 +15,6 @@ This model contains a deep learning model that adds color to black-and-white mov
 
 * Navigate to the repository
 
-* Setup a virtual environment
-
-```bash
-python3 -m venv movie_colorizer
-```
-
-```bash
-source movie_colorizer/bin/activate
-```
-
-* Install Required Utility Packages
-
-```bash
-pip3 install -r requirements.txt
-```
 * Place your .jpg image in data/test/Y
 
 * Run,
