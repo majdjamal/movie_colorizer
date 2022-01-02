@@ -98,7 +98,7 @@ class Pix2Pix:
 
         down_stack = [
 
-            self.DownBlock(64, 4, apply_barchnorm = False),
+            self.DownBlock(64, 4, apply_batchnorm = False),
             self.DownBlock(128, 4),
             self.DownBlock(256, 4),
             self.DownBlock(512, 4),
@@ -313,6 +313,7 @@ class Pix2Pix:
         x = get_image(path)
 
         pred = self.generator(x, training = False)
+
 
         pred = pred[0]
         pred = np.array(pred)

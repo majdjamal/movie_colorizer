@@ -15,7 +15,6 @@ def get_image(path: str = None):
 
     x = 'data/movie_frames/test/Y/Y5.jpg' if path == None else path
 
-    print(x)
     try:
         x = cv2.imread(x)
     except:
