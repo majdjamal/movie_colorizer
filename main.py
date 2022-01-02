@@ -10,12 +10,6 @@ import tensorflow as tf
 from utils.params import params
 from data.getData import getData
 
-if params.process_data:
-    """ Generate training dataset.
-    """
-    from data.processsData import processData
-    processData()
-
 if params.process_test_data:
     """ Generate test dataset.
     """
