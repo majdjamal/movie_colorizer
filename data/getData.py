@@ -6,8 +6,11 @@ from utils.params import params
 from tensorflow.data import Dataset
 import tensorflow as tf
 
-def getData():
-    #Load data as shape = (Npts, 256, 256, 3). X as grey and y as color
+def getData() -> Dataset:
+    """ Load pre-processed training dataset.
+    :return train_dataset: Training dataset
+    """
+    #shape = (Npts, 256, 256, 3). X as grey and y as color
     data_grey = np.load('data/processed_data/X_train.npy') / 255
     data_color = np.load('data/processed_data/y_train.npy') / 255
 

@@ -4,12 +4,11 @@ import numpy as np
 from tensorflow import cast, float32
 
 def get_image(path: str = None):
-    """ Read images in a .jpg format and converts it to tensor ready for
+    """ Read particular image and converts it to a tensor ready for
     prediction.
 
-    :params path: Path to image
-
-    :return x: image in a tensor format
+    :params path: Path to the image to be predicted
+    :return x: image converted to a tensor format
     """
 
     dim = (256, 256)

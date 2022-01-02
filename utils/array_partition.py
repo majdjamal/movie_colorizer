@@ -4,8 +4,10 @@ __author__ = 'Majd Jamal'
 import numpy as np
 import matplotlib.pyplot as plt
 
-def array_partition(training_part = 0.7, validation_part = 0.15):
+def array_partition(training_part: float = 0.7, validation_part: float = 0.15) -> None:
     """ Partition data into training 70%, validation 15% and test set 15%.
+    :params training_part: Training fraction
+    :params validation_part: Validation fraction
     """
 
     X = np.load('X.npy')

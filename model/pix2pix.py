@@ -32,8 +32,12 @@ class Pix2Pix:
         self.GeneratorOptimizer = Adam(2e-4, beta_1 = 0.5)
         self.DiscriminatorOptimizer = Adam(2e-4, beta_1 = 0.5)
 
-    def DownBlock(self, filters: int, size: int, apply_barchnorm = True):
-        """ Downscaling block
+    def DownBlock(self, filters: int, size: int, apply_batchnorm: bool = True) -> Sequential:
+        """ Downscaling block. Used to build Pix2Pix network arcitecture.
+        :params filters: number of output channels
+        :params size: kernel size
+        :params apply_batchnorm: To apply batch normalization
+        :return block: A downscaling block.
         """
         initializer = random_normal_initializer(0., 0.02)
 
@@ -47,7 +51,7 @@ class Pix2Pix:
                 use_bias = False)
         )
 
-        if apply_barchnorm:
+        if apply_batchnorm:
             block.add(layers.BatchNormalization())
 
         block.add(layers.LeakyReLU())
@@ -55,7 +59,11 @@ class Pix2Pix:
         return block
 
     def UpscaleBlock(self, filters: int, size: int, apply_dropout = False):
-        """ Upscaling block
+        """ Upscaling block. Used to build Pix2Pix network arcitecture.
+        :params filters: number of output channels
+        :params size: kernel size
+        :params apply_dropout: To apply dropout regularization.
+        :return block: An upscaling block.
         """
         initializer = random_normal_initializer(0., 0.02)
 
@@ -80,10 +88,10 @@ class Pix2Pix:
 
         return block
 
-    def MakeGenerator(self):
-        """ Make the generator
+    def MakeGenerator(self) -> Model:
+        """ Builds the generator
 
-        :return: Generator
+        :return: Non-compiled generator
         """
 
         input = layers.Input((256,256,3))
@@ -138,15 +146,15 @@ class Pix2Pix:
         return Model(inputs = input, outputs = x)
 
     def generator_loss(self, disc_out, gen_out, target):
-        """ Computes generator loss
+        """ Loss function for the generator.
 
         :params disc_out:
         :params gen_out:
         :params target:
 
-        :return total_gen_loss:
-        :return gan_loss:
-        :return l1_loss:
+        :return total_gen_loss: total generator loss
+        :return gan_loss: adversarial loss
+        :return l1_loss: l1 loss
         """
 
         gan_loss = self.loss_object(tf.ones_like(disc_out), disc_out)
@@ -157,11 +165,12 @@ class Pix2Pix:
 
         return total_gen_loss, gan_loss, l1_loss
 
-    def MakeDiscriminator(self):
-        """ Make the generator
+    def MakeDiscriminator(self) -> Model:
+        """ Builds the discriminator
 
-        :return: Generator
+        :return: Non-compiled discriminator
         """
+
 
         initializer = random_normal_initializer(0.,0.02)
 
@@ -194,12 +203,12 @@ class Pix2Pix:
         return Model(inputs = [inp, tar], outputs = last)
 
     def discriminator_loss(self, disc_real_output, disc_gen_out):
-        """ Computes generator loss
+        """ Loss function for the discriminator.
 
-        :params disc_real_output:
-        :params disc_gen_out:
+        :params disc_real_output: Discriminator loss on true image
+        :params disc_gen_out: Discriminator loss on generated image
 
-        :return total_disc_loss:
+        :return total_disc_loss: Total discriminator loss
         """
 
         real_loss = self.loss_object(tf.ones_like(disc_real_output), disc_real_output)
@@ -210,14 +219,14 @@ class Pix2Pix:
 
         return total_disc_loss
 
-    def generate_images(self, model, test_input, tar, step):
+    def generate_images(self, model: Model, test_input, tar, step: int) -> None :
         """ Generates some samples to monitor the learning progress.
         Samples are saved as .jpg in data/result folder.
 
-        :params model:
-        :params test_input:
-        :params tar:
-        :params step:
+        :params model: Generator
+        :params test_input: Grayscale image from the training set
+        :params tar: True colors for the test_input image
+        :params step: Current iteration in the training process
         """
 
         pred = model(test_input, training = True)
@@ -234,7 +243,10 @@ class Pix2Pix:
 
     @tf.function
     def train_step(self, input_image, target, step):
-        """ TODO: ADD COMMENT
+        """ Updated weights for one training step
+        :params input_image: Grayscale image from the training set
+        :params target: True colors for the input image
+        :params step: Current iteration in the training process
         """
 
         with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
@@ -262,8 +274,10 @@ class Pix2Pix:
         )
 
 
-    def fit(self, train_ds, steps: int):
-        """ Train a Pix2Pix arcitecture to colorize old movies.
+    def fit(self, train_ds, steps: int) -> None:
+        """ Start the network training process.
+        :params train_ds: Training dataset
+        :params steps: Number of training iterations.
         """
 
         start = time.time()
@@ -294,7 +308,7 @@ class Pix2Pix:
         try:
             self.generator = load_model('data/weights/movie_converter.h5')
         except:
-            raise ValueError('Weights does not exist! Train your network and try again! Or modify path to weight on line XX. ')
+            raise ValueError('Weights does not exist! Train your network and try again! Or send a message to majdj@kth.se to obtain a pre-trained model. ')
 
         x = get_image(path)
 
@@ -322,8 +336,8 @@ class Pix2Pix:
             self.fit(ds, steps)
 
         elif self.params.predict:
-
-            self.predict()
+            test_path = self.params.test_path
+            self.predict(test_path)
 
         else:
             raise ValueError('Select an operation. E.g. train with --train')

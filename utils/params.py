@@ -21,6 +21,10 @@ parser.add_argument('--process_test_data',  action = 'store_true', default=False
 	help='Process test data from mp4 to jpg, which are then used for prediction.')
 
 
+parser.add_argument('--test_path', type = str,  default='data/movie_frames/X5.jpg',
+	help='Process test data from mp4 to jpg, which are then used for prediction.')
+
+
 parser.add_argument('--eta', type = float, default=2e-4,
 	help='Learning Rate. Default: 0.0002')
 

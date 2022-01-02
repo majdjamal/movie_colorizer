@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 def jpg_to_npdarray():
-
+	""" Converts .jpg movie frames to pre-saved dataset model in np.ndarray format. 
+	"""
 	Npts = 7000
 	dim = (256, 256)
 

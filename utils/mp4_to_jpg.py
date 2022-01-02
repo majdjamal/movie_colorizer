@@ -5,16 +5,20 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-def mp4_to_jpg(movie_path = 'data/movie/train/charade.mp4', training_path = 'data/movie_frames/train/X/', label_path = 'data/movie_frames/train/Y/', training = True):
-    """ Generates data of a color movie. Images in greyscale are saved
-    in training_path, and colorful images as labels in label_path.
+def mp4_to_jpg(movie_path = 'data/movie/train/charade.mp4', training_path = 'data/movie_frames/train/X/', label_path = 'data/movie_frames/train/Y/', training = True) -> None:
+    """ Converts mp4 file to .jpg files representing movie frames.
+
+    :params movie_path: Path to the actual movie in mp4 format
+    :params training_path: Saving path for grayscale images.
+    :params label_path: Saving path for label data, i.e. color images.
+    :params training: Boolean, used to seperate between training and testing data generation.
     """
 
     vidcap = cv2.VideoCapture(movie_path)
     count = 0
     success = True
     fps = int(vidcap.get(cv2.CAP_PROP_FPS))
-    print(fps)
+
     file_count = 0
 
     while success:
