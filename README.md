@@ -4,7 +4,7 @@ This model contains a deep learning model that adds color to black-and-white mov
 
 ![ Alt text](data/result_sample.gif)
 
-(Figure 1. Color predictions for black-and-white movie frames. Predictions were yellowish in general, but some structures were astonishing. The movie in context is Kansas City Confidential, released in 1952.)
+(Figure 1. Color predictions for black-and-white movie frames. Predictions were yellowish in general, but some frames were astonishing. The movie in context is Kansas City Confidential, released in 1952.)
 
 **Pix2Pix implementation found in model/pix2pix.py**
 
