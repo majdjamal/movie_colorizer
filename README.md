@@ -20,7 +20,7 @@ This model contains a deep learning model that adds color to black-and-white mov
 * Run,
 
 ```bash
-python3 main.py --predict 'data/test/Y/[name_of_your_file].jpg'
+python3 main.py --predict --test_path 'data/test/Y/[name_of_your_file].jpg'
 ```
 
 * Navigate to data/result/frame_prediction to obtain the result

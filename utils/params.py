@@ -21,8 +21,8 @@ parser.add_argument('--process_test_data',  action = 'store_true', default=False
 	help='Process test data from mp4 to jpg, which are then used for prediction.')
 
 
-parser.add_argument('--test_path', type = str,  default='data/movie_frames/X5.jpg',
-	help='Process test data from mp4 to jpg, which are then used for prediction.')
+parser.add_argument('--test_path', type = str,  default='data/movie_frames/test/Y/Y5.jpg',
+	help='Path to the image used for color prediction.')
 
 
 parser.add_argument('--eta', type = float, default=2e-4,
